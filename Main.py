@@ -5,9 +5,7 @@ from function import *
 Tasks = []
 
 # Load tasks from file if it exists
-folder_name = 'Todoit'
-file_name = 'Task.txt'
-full_file_path = os.path.join(folder_name, file_name)
+full_file_path = 'Stored Tasks/Tasks.txt'
 if os.path.exists(full_file_path):
     with open(full_file_path, 'r') as f:
         Tasks = [line.strip() for line in f if line.strip()]
@@ -36,8 +34,14 @@ while flag is True:
         print("Here are your tasks:")
         for idx, task in enumerate(Tasks, 1):
             print(f"{idx}. {task}")
-        task_to_remove = input("Enter the task you want to remove: ")
-        remove_task(Tasks, task_to_remove)
+        try:
+            task_num = int(input("Enter the number of the task you want to remove: "))
+            if 1 <= task_num <= len(Tasks):
+                remove_task(Tasks, Tasks[task_num - 1])
+            else:
+                print("Invalid task number.")
+        except ValueError:
+            print("Please enter a valid number.")
     elif user_input == '3':
         if not Tasks:
             print("No tasks to show.")
